@@ -30,7 +30,7 @@ class MakeRequests():
             average_temp += formated_city["temp"]
         average_temp = '{0:.2f}'.format(average_temp/self.cities_amount)
         min_temp_city = min(cities, key=lambda city:city["temp"])
-
+#     TODO Sub-optimal
         return [cities, average_temp, min_temp_city["name"]]
 
 
@@ -51,10 +51,11 @@ class MakeRequests():
         city_lookup_raw = requests.get (f"http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit={self.limit}&appid={API_KEY}")
         city_lookup_raw.raise_for_status()
         city_repsonse = city_lookup_raw.json()
-
-        latitude = city_repsonse[0]["lat"]
-        longitude = city_repsonse[0]["lon"]
-
+        try:
+            latitude = city_repsonse[0]["lat"]
+            longitude = city_repsonse[0]["lon"]
+        except IndexError:
+            return "Error finding city, or invalid API response."
         city_data_full = self.get_data(latitude, longitude)
 
         formated_data = self.format_data(city_data_full)

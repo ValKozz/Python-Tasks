@@ -13,8 +13,8 @@ class ScrollFrame(ctk.CTkScrollableFrame):
         self.pack_frames()
 
     def init_data(self, data):
-        if not data:
-            self.frames.append(DataFrame(master=self).pack())
+        if not data or type(data) == str:
+            self.frames.append(DataFrame(master=self, label_text=data).pack())
         elif type(data) != list:
             self.create_from_data(data)
         else:
