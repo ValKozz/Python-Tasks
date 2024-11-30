@@ -10,12 +10,21 @@ class ScrollFrame(ctk.CTkScrollableFrame):
         super().__init__(master, **kwargs)
         self.frames = []
         self.init_data(data)
+        self.pack_frames()
 
     def init_data(self, data):
         if not data:
-            return self.frames.append(DataFrame(master=self))
-        for city in data[0]:
-            label_text =\
+            self.frames.append(DataFrame(master=self))
+        elif type(data) != list:
+            self.create_from_data(data)
+        else:
+            for city in data[0]:
+                self.create_from_data(city)
+            self.frames.append(DataFrame(self, label_text=f"Avg. Temperature: {data[1]}").pack(fill="x", padx=5, expand=True))
+            self.frames.append(DataFrame(self, label_text=f"Coldest City: {data[2]}").pack(fill="x", padx=5, expand=True))
+
+    def create_from_data(self, city):
+        label_text =\
 f"""
     Name: {city["name"]}, {city["country"]}
         Current Temperature: {city["temp"]} C
@@ -24,11 +33,9 @@ f"""
         Weather : {city["clouds"]}
         Weather description: {city["weather_desc"]}
 """
-            self.frames.append(DataFrame(self, label_text=label_text).pack(fill="x", padx=5, expand=True))
-        if data[1] and data[2]:
-            self.frames.append(DataFrame(self, label_text=f"Avg. Temperature: {data[1]}").pack(fill="x", padx=5, expand=True))
-            self.frames.append(DataFrame(self, label_text=f"Coldest City: {data[2]}").pack(fill="x", padx=5, expand=True))
+        self.frames.append(DataFrame(self, label_text=label_text).pack(fill="x", padx=5, expand=True))
 
+    def pack_frames(self):
         for frame in self.frames:
             if frame != None:
                 frame.pack()
