@@ -19,10 +19,14 @@ def get_by_name(city_name):
     city_lookup_raw.raise_for_status()
     city_repsonse = city_lookup_raw.json()
 
-    latitude = city_repsonse[0]["lat"]
-    longitude = city_repsonse[0]["lon"]
+    try:
+        latitude = city_repsonse[0]["lat"]
+        longitude = city_repsonse[0]["lon"]
+    except IndexError:
+        print("Error finding city, or invalid API response.")
+        return 1
 
-    city_data_full = get_data(latitude, longitude)
+        city_data_full = self.get_data(latitude, longitude)
 
     formated_data = format_data(city_data_full)
     return print_city(formated_data)
