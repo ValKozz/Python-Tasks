@@ -5,7 +5,6 @@ from random import randrange
 RAND_CITIES_AMOUNT = 5
 LIMIT = 1
 API_KEY = os.environ['API_KEY']
-EXCLUDE_FROM_RESPONSE = "minutely,hourly,daily,alerts"
 UNITS = "metric"
 
 def get_data(latitude, longitude):
