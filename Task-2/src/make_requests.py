@@ -2,18 +2,17 @@ import requests
 import os
 from random import randrange
 
-RAND_CITIES_AMOUNT = 5
-LIMIT = 1
 API_KEY = os.environ['API_KEY']
-EXCLUDE_FROM_RESPONSE = "minutely,hourly,daily,alerts"
-UNITS = "metric"
 
 class MakeRequests():
     def __init__ (self):
-        pass
+        self.cities_amount = 5
+        self.limit = 1
+        self.exclude_from_resp = "minutely,hourly,daily,alerts"
+        self.units = "metric"
 
     def get_data(self, latitude, longitude):
-        city_lookup_raw = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&units={UNITS}&lon={longitude}&appid={API_KEY}")
+        city_lookup_raw = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&units={self.units}&lon={longitude}&appid={API_KEY}")
         city_lookup_raw.raise_for_status()
 
         response = city_lookup_raw.json()
@@ -23,23 +22,17 @@ class MakeRequests():
     def collect_cities(self):
         cities = []
         average_temp = 0
-        while len(cities) < RAND_CITIES_AMOUNT:
+        while len(cities) < self.cities_amount:
             formated_city = self.get_random_city()
             cities.append(formated_city)
 
-#         TODO - Fix this mess and return the needed values
         for formated_city in cities:
             average_temp += formated_city["temp"]
-        average_temp = '{0:.2f}'.format(average_temp/RAND_CITIES_AMOUNT)
-
-    #     min for each item in dict, item : item.temp
+        average_temp = '{0:.2f}'.format(average_temp/self.cities_amount)
         min_temp_city = min(cities, key=lambda city:city["temp"])
 
-        return {
-            "data" : cities,
-            "average_temp" : average_temp,
-            "min" : min_temp_city["name"]
-            }
+        return [cities, average_temp, min_temp_city["name"]]
+
 
     def format_data(self, city_data_full):
             formated_data ={
@@ -55,7 +48,7 @@ class MakeRequests():
             return formated_data
 
     def get_by_name(self, city_name):
-        city_lookup_raw = requests.get (f"http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit={LIMIT}&appid={API_KEY}")
+        city_lookup_raw = requests.get (f"http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit={self.limit}&appid={API_KEY}")
         city_lookup_raw.raise_for_status()
         city_repsonse = city_lookup_raw.json()
 
@@ -64,7 +57,7 @@ class MakeRequests():
 
         city_data_full = self.get_data(latitude, longitude)
 
-        formated_data = format_data(city_data_full)
+        formated_data = self.format_data(city_data_full)
         return formated_data
 
     def get_random_city(self):
