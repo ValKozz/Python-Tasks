@@ -1,99 +1,55 @@
-import requests
-import os
-from random import randrange
+import customtkinter as ctk
+from make_requests import MakeRequests
 
-RAND_CITIES_AMOUNT = 5
-LIMIT = 1
-API_KEY = os.environ['API_KEY']
-EXCLUDE_FROM_RESPONSE = "minutely,hourly,daily,alerts"
-UNITS = "metric"
+ctk.set_appearance_mode('dark')
+ctk.set_default_color_theme('blue')
 
-def get_data(latitude, longitude):
-    city_lookup_raw = requests.get(f"https://api.openweathermap.org/data/2.5/weather?lat={latitude}&units={UNITS}&lon={longitude}&appid={API_KEY}")
-    city_lookup_raw.raise_for_status()
-
-    response = city_lookup_raw.json()
-    return response
-
-def get_by_name(city_name):
-    city_lookup_raw = requests.get (f"http://api.openweathermap.org/geo/1.0/direct?q={city_name}&limit={LIMIT}&appid={API_KEY}")
-    city_lookup_raw.raise_for_status()
-    city_repsonse = city_lookup_raw.json()
-
-    latitude = city_repsonse[0]["lat"]
-    longitude = city_repsonse[0]["lon"]
-
-    city_data_full = get_data(latitude, longitude)
-
-    formated_data = format_data(city_data_full)
-    return print_city(formated_data)
-
-def collect_cities():
-    cities = []
-    average_temp = 0
-    while len(cities) < RAND_CITIES_AMOUNT:
-        formated_city = get_random_city()
-        cities.append(formated_city)
-        print_city(formated_city)
-
-    for formated_city in cities:
-        average_temp += formated_city["temp"]
-    print(f"Average temperature for all: {'{0:.2f}'.format(average_temp/RAND_CITIES_AMOUNT)}")
-#     min for each item in dict, item : item.temp
-    min_temp_city = min(cities, key=lambda city:city["temp"])
-    print(f"Coldest city: {min_temp_city['name']}\n")
-
-def get_random_city():
-    longitude = randrange(-180, 181)
-    latitude = randrange(-90, 91)
-    city_data_full = get_data(latitude, longitude)
-
-    # if the location is not actually a city, loop
-    while not city_data_full["name"]:
-        longitude = randrange(-180, 181)
-        latitude = randrange(-90, 91)
-        city_data_full = get_data(latitude, longitude)
-
-    return format_data(city_data_full)
-
-def format_data(city_data_full):
-        formated_data ={
-        "name": city_data_full["name"],
-        "country": city_data_full["sys"]["country"],
-        "humidity": city_data_full["main"]["humidity"],
-        "temp": city_data_full["main"]["temp"],
-        "weather_desc": city_data_full["weather"][0]["description"],
-        "clouds": city_data_full["weather"][0]["main"],
-        "clouds_percent": city_data_full["clouds"]["all"],
-        }
-
-        return formated_data
-
-def print_city(formated_data):
-    print(
-f"""
-Name: {formated_data["name"]}, {formated_data["country"]}
-    Current Temperature: {formated_data["temp"]} C
-    Humidity: {formated_data["humidity"]}%
-    Clouds:  {formated_data["clouds_percent"]}% of sky covered by clouds
-    Weather : {formated_data["clouds"]}
-    Weather description: {formated_data["weather_desc"]}
-""")
+class MyFrame(ctk.CTkScrollableFrame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
+        self.label = ctk.CTkLabel(self, text="Where data goes...")
+        self.label.pack(fill="both", padx=20)
 
 
-def main():
-    option = input("City lookup (s)\nGet 5 random (r)\nQuit (q)\nPlease enter the desired option:\n")
 
-    if option == "s".lower():
-        name = input("City: ")
-        get_by_name(name)
-    elif option == "r".lower():
-        collect_cities()
-    elif option == "q".lower():
-        quit()
-    else:
-        print("Invalid input. Try again\n")
-        main()
+class App(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.init_window()
+        self.requester = MakeRequests()
+
+    def init_window(self):
+        self.title('Weather App Demo')
+        self.minsize(width=800, height=400)
+        self.init_ui()
+
+    def init_scroll_frame(self):
+        self.my_frame = MyFrame(master=self.inner_grid, corner_radius=0, fg_color="transparent")
+        self.my_frame.pack(fill="both")
+
+
+    def init_ui(self):
+        self.inner_grid = ctk.CTkFrame(self)
+        self.inner_grid.pack(side='right', fill='both', expand=True, padx=5, pady=5)
+        self.init_scroll_frame()
+
+        self.get_rand_button = ctk.CTkButton(self, text="Get 5 cities", command=self.get_random_cites)
+        self.get_rand_button.pack(side="top", fill="y", pady=(10, 0))
+
+        self.input_label = ctk.CTkLabel(self, text="Enter desired city name:")
+        self.input_label.pack(pady=(10, 0), fill="x")
+
+        self.input_textbox = ctk.CTkEntry(self, placeholder_text="Type here...")
+        self.input_textbox.pack(pady=(5, 10), padx=20, fill="x")
+
+        self.get_named_button = ctk.CTkButton(self, text="Get!", command=self.get_random_cites)
+        self.get_named_button.pack(side="top", fill="y", pady=(10, 0))
+
+    def get_random_cites(self):
+        data = self.requester.collect_cities()
+        print(data)
 
 if __name__ == '__main__':
-    main()
+    app = App()
+    app.mainloop()
+
