@@ -1,2 +1,2 @@
 # Python-Tasks
-Practical assignmetn for Interview
+Practical assignment for Interview
