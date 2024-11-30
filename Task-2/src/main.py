@@ -14,7 +14,7 @@ class ScrollFrame(ctk.CTkScrollableFrame):
 
     def init_data(self, data):
         if not data:
-            self.frames.append(DataFrame(master=self))
+            self.frames.append(DataFrame(master=self).pack())
         elif type(data) != list:
             self.create_from_data(data)
         else:
@@ -33,7 +33,7 @@ f"""
         Weather : {city["clouds"]}
         Weather description: {city["weather_desc"]}
 """
-        self.frames.append(DataFrame(self, label_text=label_text).pack(fill="x", padx=5, expand=True))
+        self.frames.append(DataFrame(self, label_text=label_text, fg_color="#3d3d3d").pack(fill="x", padx=20, pady=20, expand=True))
 
     def pack_frames(self):
         for frame in self.frames:
@@ -44,7 +44,7 @@ f"""
 class DataFrame(ctk.CTkFrame):
     def __init__(self, master, label_text="Data goes here...", **kwargs):
         super().__init__(master, **kwargs)
-        self.label = ctk.CTkLabel(self, text=label_text)
+        self.label = ctk.CTkLabel(self, text=label_text, justify="left")
         self.label.pack(fill="x", padx=5)
 
 
