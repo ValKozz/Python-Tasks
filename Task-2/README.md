@@ -1,3 +1,3 @@
-# Task 2 - WIP
+# Task 2
 
 
