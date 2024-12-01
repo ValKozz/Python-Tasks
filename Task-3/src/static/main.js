@@ -14,11 +14,12 @@ function createCard(city) {
     card.className = 'card';
     card.innerHTML = ` 
   			<div class="card-body">
-    			<h4> ${city.name}, ${city.country} </h4>
-    			<p> Temperature: ${city.temp} </p>
-    			<p> Humidity: ${city.humidity} </p>
-    			<p> Clouds: ${city.clouds}, ${city.clouds_percent} </p>
-    			<p> Description ${city.weather_desc} </p>
+    			<h3> ${city.name}, ${city.country} </h3>
+    			<p> Temperature: ${city.temp} C </p>
+    			<p> Humidity: ${city.humidity}% </p>
+    			<p> Weather: ${city.clouds} </p>
+                <p>${city.clouds_percent}% of sky taken up by clouds</p>
+    			<p> Description: ${city.weather_desc} </p>
 			</div>
     `;
     return card;
