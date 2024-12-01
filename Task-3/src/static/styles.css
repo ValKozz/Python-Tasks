@@ -31,3 +31,12 @@
 	position: relative;
 	margin-left: 80%;
 }
+
+.card {
+	background-color: #2b3035;
+	margin-top: 20px;
+}
+
+.text-box {
+	padding-top: 5%;
+}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, jsonify
+from flask import Flask, render_template, url_for, jsonify, request
 import json
 from flask_bootstrap import Bootstrap
 from make_requests import MakeRequests
@@ -14,10 +14,17 @@ requester = MakeRequests()
 def home():
 	return render_template("index.html")
 
-@app.route("/getFive")
+@app.route("/getSingle", methods=["POST"])
+def getSingle():
+    name = request.get_json(force=True)
+    city = requester.get_by_name(name)
+    single_json = json.dumps(city)
+    return jsonify(single_json)
+
+@app.route("/getFive", methods=["POST"])
 def getFive():
-	cities = requester.collect_cities()
-	# For debug
+	amount = request.get_json()
+	cities = requester.collect_cities(int(amount))
 	cities_json = json.dumps(cities)
 	return jsonify(cities_json)
 

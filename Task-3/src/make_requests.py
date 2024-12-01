@@ -6,7 +6,6 @@ API_KEY = os.environ['API_KEY']
 
 class MakeRequests():
     def __init__ (self):
-        self.cities_amount = 5
         self.limit = 1
         self.exclude_from_resp = "minutely,hourly,daily,alerts"
         self.units = "metric"
@@ -19,16 +18,16 @@ class MakeRequests():
         return response
 
 
-    def collect_cities(self):
+    def collect_cities(self, amount):
         cities = []
         average_temp = 0
-        while len(cities) < self.cities_amount:
+        while len(cities) < amount:
             formated_city = self.get_random_city()
             cities.append(formated_city)
 
         for formated_city in cities:
             average_temp += formated_city["temp"]
-        average_temp = '{0:.2f}'.format(average_temp/self.cities_amount)
+        average_temp = '{0:.2f}'.format(average_temp/amount)
         min_temp_city = min(cities, key=lambda city:city["temp"])
 #     TODO Sub-optimal
         return [cities, average_temp, min_temp_city["name"]]
