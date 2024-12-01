@@ -19,8 +19,7 @@ def getFive():
 	cities = requester.collect_cities()
 	# For debug
 	cities_json = json.dumps(cities)
-	response = jsonify(cities_json)
-	return response
+	return jsonify(cities_json)
 
 if __name__ == "__main__":
 	app.run()

@@ -9,12 +9,17 @@ slider.addEventListener("input", () => {
     sliderValue.textContent = slider.value;
 });
 
-function createCard(title, description, imageUrl) {
+function createCard(city) {
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `
+    // TODO
+    card.innerHTML = ` 
   			<div class="card-body">
-    			This will be updated.
+    			<h4> ${city.name}, ${city.country} </h4>
+    			<p> Temperature: ${city.temp} </p>
+    			<p> Humidity: ${city.humidity} </p>
+    			<p> Clouds: ${city.clouds}, ${city.clouds_percent} </p>
+    			<p> Description ${city.weather_desc} </p>
 		</div>
     `;
     return card;
@@ -24,8 +29,17 @@ function createCard(title, description, imageUrl) {
 function updateCards(data) {
     const container = document.getElementById('card_container');
     container.innerHTML = ''; // delete the default
-    console.log(data);
-    
+    const parsed_data = JSON.parse(data);
+    console.log(parsed_data)
+    console.log(parsed_data.length)
+    if (parsed_data.length > 1) {
+    	let i = 0;
+    	while (i < parsed_data[0].length) {
+ 	   		card = createCard(parsed_data[0][i]);
+ 	   		container.appendChild(card);
+    		i++;
+		}
+    }
 }
 
 // Fetch data from the backend and update cards
