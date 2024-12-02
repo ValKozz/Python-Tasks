@@ -9,6 +9,7 @@ slider.addEventListener("input", () => {
     sliderValue.textContent = slider.value;
 });
 
+// Deal with card requests here on
 function createCard(city) {
     const card = document.createElement('div');
     card.className = 'card';

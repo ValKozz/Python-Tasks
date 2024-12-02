@@ -40,3 +40,21 @@
 .text-box {
 	padding-top: 5%;
 }
+
+.history-container {
+	display: flex;
+	padding: 10%;
+}
+
+.history-cards {
+	height: 100%;
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+#RefreshDB {
+	margin-top: 5%;
+	position: relative;
+	margin-left: 90%;
+}
