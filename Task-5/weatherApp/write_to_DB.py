@@ -3,8 +3,8 @@ from django.utils import timezone
 
 def write(data):
 	if type(data) == dict:
-		last_city = list(CityData.objects.order_by("-pub_date"))[-1:]
-		last_city.delete()
+		last_city = list(models.CityData.objects.order_by("-pub_date"))[-1:]
+		last_city[0].delete()
 
 		models.CityData.objects.create(
 			name = data['name'],
@@ -18,7 +18,7 @@ def write(data):
 		    	)
 
 	elif type(data) == list:
-		last_five = list(CityData.objects.order_by("-pub_date"))[-5:]
+		last_five = list(models.CityData.objects.order_by("-pub_date"))[:5]
 		for city in last_five:
 			city.delete()
 

@@ -4,26 +4,26 @@ try {
         const response = await fetch('getFromDB');
         if (!response.ok) throw new Error('Failed to fetch data');
         const raw_response = await response.json();
-        updateCards(raw_response);
+        updateCardsDB(raw_response);
     } catch (error) {
         console.error('Error:', error);
         alert('Failed to fetch cards. Please try again later.');
     }
 }
 
-function updateCards(parsed_data) {
+function updateCardsDB(parsed_data) {
     console.log(parsed_data)
     const container = document.getElementById('his-card-container');
     container.innerHTML = ''; // delete the default
 	let i = 0;
 	while (i < parsed_data.length) {
-   		card = createCard(parsed_data[i]);
+   		card = createCardDB(parsed_data[i]);
    		container.appendChild(card);
 		i++;
     }
 }
 
-function createCard(city) {
+function createCardDB(city) {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = ` 
