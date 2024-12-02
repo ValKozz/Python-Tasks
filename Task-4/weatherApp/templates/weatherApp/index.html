@@ -1,6 +1,6 @@
 {% include "weatherApp/header.html" %}
-{% block getFive %}
-
+{% block index %}
+{% csrf_token %}
 <div class="content_container"> 
         <div class="left half">
                 <label fclass="form-label">Number of random cities to collect data on:</label>

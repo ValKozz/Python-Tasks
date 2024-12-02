@@ -40,9 +40,6 @@ function updateCards(data) {
     const container = document.getElementById('card_container');
     container.innerHTML = ''; // delete the default
     const parsed_data = JSON.parse(data);
-    // Debug, remove
-    // console.log(parsed_data);
-    // console.log(parsed_data.length);
     if (parsed_data.length > 1) {
     	let i = 0;
     	while (i < parsed_data[0].length) {
@@ -64,17 +61,23 @@ function updateCards(data) {
 
 async function fetchFive() {
     try {
-        const response = await fetch('/getFive', 
+        const response = await fetch('getFive', 
             {
                 method: "POST",
                 credentials: "include",
                 body: JSON.stringify(slider.value),
                 cache: "no-cache",
-                headers: new Headers({"content-type": "application/json"}) 
+                headers: new Headers(
+                    {
+                        'X-CSRFToken' : Cookies.get('csrftoken'),
+                        "content-type": "application/json",
+                    }
+                    ) 
             }
                 );
         if (!response.ok) throw new Error('Failed to fetch data');
         const data = await response.json();
+        console.log(data);
         updateCards(data);
     } catch (error) {
         console.error('Error:', error);
@@ -88,13 +91,18 @@ async function fetchSingle() {
 		return alert("Empty field, please enter a name of the city.");
 	} else {
 		try {
-        	const response = await fetch('/getSingle', 
+        	const response = await fetch('getSingle', 
             {
     			method: "POST",
     			credentials: "include",
     			body: JSON.stringify(cityField.value),
     			cache: "no-cache",
-    			headers: new Headers({"content-type": "application/json"})
+    			headers: new Headers(
+                    {
+                        'X-CSRFToken' : Cookies.get('csrftoken'),
+                        "content-type": "application/json",
+                    }
+                    )
 			});
 
         	if (!response.ok) throw new Error('Failed to fetch data');

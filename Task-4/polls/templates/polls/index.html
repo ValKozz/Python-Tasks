@@ -1,6 +1,6 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'polls/style.css' %}">
-
+{% csrf_token %}
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
