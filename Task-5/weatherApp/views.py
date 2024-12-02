@@ -36,8 +36,5 @@ def getSingle(request):
 	return JsonResponse(json_data, safe=False)
 
 def getFromDB(request):
-	pass
-	json_data = serializers.serialize('json', CityData.objects.all())
-	test = json.dumps(json_data)
-	print(test)
-	return JsonResponse(test, safe=False)
+	json_data = json.loads(serializers.serialize('json', CityData.objects.all()))
+	return JsonResponse(json_data, safe=False)
