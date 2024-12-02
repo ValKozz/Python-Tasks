@@ -15,4 +15,8 @@ def getFive(request):
 	return JsonResponse(json_data, safe=False)
 
 def getSingle(request):
-	passS
+	name = json.load(request)
+	requester = make_requests.MakeRequests()
+	json_data = json.dumps(requester.get_by_name(name))
+# Sub-optimal but running out of time
+	return JsonResponse(json_data, safe=False)
