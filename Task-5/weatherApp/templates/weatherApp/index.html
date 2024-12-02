@@ -1,0 +1,35 @@
+{% include "weatherApp/header.html" %}
+{% block index %}
+{% csrf_token %}
+<div class="content_container"> 
+        <div class="left half">
+                <label fclass="form-label">Number of random cities to collect data on:</label>
+                <input type="range" class="form-range" min="1" max="10" step="1" id="bSlider" value=5>
+                <div class="container">
+                        <label>Amount: 
+                                <label id="sliderValue">
+                                </label>
+                        </label>
+                        <button class="btn btn-primary" id="getFive">Get!</button>
+
+                        <div class="input-group mb-3 text-box">
+                                <input type="text" class="form-control" placeholder="City name" aria-label="City" aria-describedby="button-addon2" id="cityField">
+                                <button class="btn btn-outline-secondary" type="button" id="getNamed">Get by name!</button>
+                        </div>
+
+                        </div>
+                <div>
+
+                </div>
+        </div>
+        <div class="right half" id="card_container">
+                <div class="card">
+                        <div class="card-body">
+                        This will be updated.
+                        </div>
+                </div>
+        </div>
+</div>
+{% endblock %}
+
+{% include 'weatherApp/footer.html' %}
