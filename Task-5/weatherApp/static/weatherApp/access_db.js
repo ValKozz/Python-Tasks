@@ -11,15 +11,29 @@ try {
 }
 
 function updateCardsDB(parsed_data) {
-    console.log(parsed_data)
+    let average_temp = 0;
+    var coldest_city = parsed_data[0].fields
+
     const container = document.getElementById('his-card-container');
     container.innerHTML = ''; // delete the default
 	let i = 0;
 	while (i < parsed_data.length) {
-   		card = createCardDB(parsed_data[i]);
-   		container.appendChild(card);
+        let current_city = parsed_data[i].fields;
+
+        if (coldest_city.temp > current_city.temp) {
+            coldest_city = current_city
+        }
+
+        average_temp += current_city.temp;
+
+        city_card = createCardDB(parsed_data[i]);
+   		container.appendChild(city_card);
 		i++;
     }
+    const average_info = document.getElementById('avg-temp-history');
+    const coldest_city_info = document.getElementById('coldest-history');
+    average_info.innerHTML =Number(average_temp/10).toFixed(2) + " C";
+    coldest_city_info.innerHTML = coldest_city.name;
 }
 
 function createCardDB(city) {
@@ -35,6 +49,7 @@ function createCardDB(city) {
     			<p> Description: ${city.fields.weather_desc} </p>
 			</div>
     `;
+
     return card;
 }
 

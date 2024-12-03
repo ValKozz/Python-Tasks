@@ -46,7 +46,7 @@
 }
 
 .hist-card-container {
-	verflow: auto;
+	overflow: auto;
 	white-space: nowrap;
 	overflow: auto;
 	overflow-x: hidden;
@@ -62,4 +62,8 @@
 	margin-top: 5%;
 	position: relative;
 	margin-left: 90%;
+}
+
+.history-stats h4 {
+	display: block;
 }

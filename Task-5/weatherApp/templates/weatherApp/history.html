@@ -1,11 +1,15 @@
 <div class="history-container">
-    <h3> Last 10 searches: </h3>
-	<div class="history-cards">
+<h3> Last 10 searches: </h3>
+  <button class="btn btn-outline-primary" type="button" id="RefreshDB">Refresh.</button>
+  <div class="history-stats">
+      <h4>Average temperature: <a id="avg-temp-history"></a></h4>
+      <h4>Codest city in searches: <a id="coldest-history"></a></h4>
+  </div>
+	<div class="history-cards-wrapper">
         <div id="his-card-container">
            <div class="card">
              <div class="card-body">No data found.</div>
           </div>  
         </div>
-      <button class="btn btn-outline-primary" type="button" id="RefreshDB">Refresh.</button>
     </div>
 </div>
