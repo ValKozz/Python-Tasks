@@ -33,7 +33,7 @@ function updateCardsDB(parsed_data) {
     const average_info = document.getElementById('avg-temp-history');
     const coldest_city_info = document.getElementById('coldest-history');
     average_info.innerHTML =Number(average_temp/10).toFixed(2) + " C";
-    coldest_city_info.innerHTML = coldest_city.name;
+    coldest_city_info.innerHTML = coldest_city.name + " (" + coldest_city.temp + "C )";
 }
 
 function createCardDB(city) {
