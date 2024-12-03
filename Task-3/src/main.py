@@ -18,6 +18,12 @@ def home():
 def getSingle():
     name = request.get_json(force=True)
     city = requester.get_by_name(name)
+# Quick and easy 
+    if 'Error' in city:
+        err = {"err" : f"{city}"}
+        return jsonify(json.dumps(err))
+
+
     single_json = json.dumps(city)
     return jsonify(single_json)
 

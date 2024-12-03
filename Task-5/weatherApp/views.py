@@ -29,9 +29,15 @@ def getSingle(request):
 
 	# write to DB
 	city = requester.get_by_name(name)
+# Quick fix
+	if city == "Error finding city, or invalid API response.":
+		err = json.loads('{"err" : "Error finding city, or invalid API response."}')
+		return JsonResponse(json.dumps(err), safe=False)
+
 	write_to_DB.write(city)
 
 	json_data = json.dumps(city)
+
 # Sub-optimal but running out of time
 	return JsonResponse(json_data, safe=False)
 

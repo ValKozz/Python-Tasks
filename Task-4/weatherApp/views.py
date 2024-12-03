@@ -17,6 +17,12 @@ def getFive(request):
 def getSingle(request):
 	name = json.load(request)
 	requester = make_requests.MakeRequests()
-	json_data = json.dumps(requester.get_by_name(name))
+	city = requester.get_by_name(name)
+
+	if city == "Error finding city, or invalid API response.":
+		err = json.loads('{"err" : "Error finding city, or invalid API response."}')
+		return JsonResponse(json.dumps(err), safe=False)
+
+	json_data = json.dumps(city)
 # Sub-optimal but running out of time
 	return JsonResponse(json_data, safe=False)

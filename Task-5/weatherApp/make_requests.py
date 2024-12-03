@@ -54,6 +54,7 @@ class MakeRequests():
             latitude = city_repsonse[0]["lat"]
             longitude = city_repsonse[0]["lon"]
         except IndexError:
+            print("ERR: Error finding city, or invalid API response.")
             return "Error finding city, or invalid API response."
         city_data_full = self.get_data(latitude, longitude)
 

@@ -36,13 +36,27 @@ function attachTrailingCard(text, data) {
 	return card
 }
 
-function updateCards(data) {
+function handleInvalidCard() {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = ` 
+            <div class="card-body">
+                <h3>Error: ${ parsed_data.err } </h3>
+            </div>
+ `      
+    return card
+}
+
+function updateCards(parsed_data) {
     const container = document.getElementById('card_container');
+
     container.innerHTML = ''; // delete the default
-    const parsed_data = JSON.parse(data);
-    // Debug, remove
-    // console.log(parsed_data);
-    // console.log(parsed_data.length);
+
+    if ('err' in parsed_data) {
+        card = handleInvalidCard(parsed_data);
+        return container.appendChild(card);
+    }
+
     if (parsed_data.length > 1) {
     	let i = 0;
     	while (i < parsed_data[0].length) {
@@ -75,7 +89,8 @@ async function fetchFive() {
                 );
         if (!response.ok) throw new Error('Failed to fetch data');
         const data = await response.json();
-        updateCards(data);
+        const parsed_data = JSON.parse(data);
+        updateCards(parsed_data);
     } catch (error) {
         console.error('Error:', error);
         alert('Failed to fetch cards. Please try again later.');
@@ -100,7 +115,8 @@ async function fetchSingle() {
         	if (!response.ok) throw new Error('Failed to fetch data');
 
         	const data = await response.json();
-        	updateCards(data);
+            parsed_data = JSON.parse(data);
+        	updateCards(parsed_data);
         	
     	} catch (error) {
         	console.error('Error:', error);

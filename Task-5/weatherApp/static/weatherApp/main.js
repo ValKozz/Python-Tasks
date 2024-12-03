@@ -11,18 +11,26 @@ slider.addEventListener("input", () => {
 
 // Deal with card requests here on
 function createCard(city) {
+
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = ` 
-  			<div class="card-body">
-    			<h3> ${city.name}, ${city.country} </h3>
-    			<p> Temperature: ${city.temp} C </p>
-    			<p> Humidity: ${city.humidity}% </p>
-    			<p> Weather: ${city.clouds} </p>
+    if (city.name == undefined) {
+        card.innerHTML = ` Not found, sorry!`;
+// TODO!!!!
+    } else {
+        card.innerHTML = ` 
+            <div class="card-body">
+                <h3> ${city.name}, ${city.country} </h3>
+                <p> Temperature: ${city.temp} C </p>
+                <p> Humidity: ${city.humidity}% </p>
+                <p> Weather: ${city.clouds} </p>
                 <p>${city.clouds_percent}% of sky taken up by clouds</p>
-    			<p> Description: ${city.weather_desc} </p>
-			</div>
+                <p> Description: ${city.weather_desc} </p>
+            </div>
     `;
+    }
+
+
     return card;
 }
 
