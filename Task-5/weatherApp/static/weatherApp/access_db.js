@@ -1,4 +1,3 @@
-
 async function getFromDB() {
 try {
         const response = await fetch('getFromDB');
@@ -38,5 +37,6 @@ function createCardDB(city) {
     `;
     return card;
 }
+
 
 document.getElementById('RefreshDB').addEventListener('click', getFromDB);

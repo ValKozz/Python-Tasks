@@ -42,15 +42,20 @@
 }
 
 .history-container {
-	display: flex;
 	padding: 10%;
 }
 
-.history-cards {
-	height: 100%;
+.hist-card-container {
+	verflow: auto;
+	white-space: nowrap;
+	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+.history-cards-wrapper {
+	height: 20vw;
 	width: 100%;
-	overflow-x: auto;
-	overflow-y: hidden;
 }
 
 #RefreshDB {

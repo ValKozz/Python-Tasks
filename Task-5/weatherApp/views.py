@@ -17,7 +17,7 @@ def getFive(request):
 
 	# write to DB
 	cities = requester.collect_cities(amount)
-	write_to_DB.write(cities[0])
+	write_to_DB.write(cities[0], amount)
 
 	json_data = json.dumps(cities)
 # Sub-optimal but running out of time

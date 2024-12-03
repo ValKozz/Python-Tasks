@@ -1,7 +1,7 @@
 from . import models
 from django.utils import timezone
 
-def write(data):
+def write(data, amount=None):
 	if type(data) == dict:
 		last_city = list(models.CityData.objects.order_by("-pub_date"))[-1:]
 		last_city[0].delete()
@@ -18,11 +18,11 @@ def write(data):
 		    	)
 
 	elif type(data) == list:
-		last_five = list(models.CityData.objects.order_by("-pub_date"))[:5]
+		last_five = list(models.CityData.objects.order_by("-pub_date"))[-amount:]
 		for city in last_five:
 			city.delete()
-
-		for entry in data:		
+# 		Otherwise we write in backwards order to what is displayed
+		for entry in data[::-1]:		
 			models.CityData.objects.create(
 				name = entry['name'],
 		    	country = entry['country'],
